@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.im.dao.ImUserDao">
+
+    <resultMap type="com.im.entity.ImUser" id="ImUserMap">
+        <result property="id" column="id" jdbcType="BIGINT"/>
+        <result property="account" column="account" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="image" column="image" jdbcType="VARCHAR"/>
+        <result property="sex" column="sex" jdbcType="VARCHAR"/>
+        <result property="age" column="age" jdbcType="INTEGER"/>
+        <result property="signature" column="signature" jdbcType="VARCHAR"/>
+        <result property="loginIp" column="login_ip" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="lineStatus" column="line_status" jdbcType="INTEGER"/>
+        <result property="created" column="created" jdbcType="TIMESTAMP"/>
+        <result property="updated" column="updated" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ImUserMap">
+        select
+          id, account, password, image, sex, age, signature, login_ip, status, line_status, created, updated
+        from im.im_user
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ImUserMap">
+        select
+          id, account, password, image, sex, age, signature, login_ip, status, line_status, created, updated
+        from im.im_user
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="ImUserMap">
+        select
+        id, account, password, image, sex, age, signature, login_ip, status, line_status, created, updated
+        from im.im_user
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="account != null and account != ''">
+                and account = #{account}
+            </if>
+            <if test="password != null and password != ''">
+                and password = #{password}
+            </if>
+            <if test="image != null and image != ''">
+                and image = #{image}
+            </if>
+            <if test="sex != null and sex != ''">
+                and sex = #{sex}
+            </if>
+            <if test="age != null">
+                and age = #{age}
+            </if>
+            <if test="signature != null and signature != ''">
+                and signature = #{signature}
+            </if>
+            <if test="loginIp != null and loginIp != ''">
+                and login_ip = #{loginIp}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="lineStatus != null">
+                and line_status = #{lineStatus}
+            </if>
+            <if test="created != null">
+                and created = #{created}
+            </if>
+            <if test="updated != null">
+                and updated = #{updated}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into im.im_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="account != null and account != ''">
+                account,
+            </if>
+            <if test="password != null and password != ''">
+                password,
+            </if>
+            <if test="image != null and image != ''">
+                image,
+            </if>
+            <if test="sex != null and sex != ''">
+                sex,
+            </if>
+            <if test="age != null">
+                age,
+            </if>
+            <if test="signature != null and signature != ''">
+                signature,
+            </if>
+            <if test="loginIp != null and loginIp != ''">
+                login_ip,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="lineStatus != null">
+                line_status,
+            </if>
+            <if test="created != null">
+                created,
+            </if>
+            <if test="updated != null">
+                updated,
+            </if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="account != null and account != ''">
+                #{account},
+            </if>
+            <if test="password != null and password != ''">
+                #{password},
+            </if>
+            <if test="image != null and image != ''">
+                #{image},
+            </if>
+            <if test="sex != null and sex != ''">
+                #{sex},
+            </if>
+            <if test="age != null">
+                #{age},
+            </if>
+            <if test="signature != null and signature != ''">
+                #{signature},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="lineStatus != null">
+                #{lineStatus},
+            </if>
+            now(),
+        </trim>
+
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update im.im_user
+        <set>
+            <if test="account != null and account != ''">
+                account = #{account},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="image != null and image != ''">
+                image = #{image},
+            </if>
+            <if test="sex != null and sex != ''">
+                sex = #{sex},
+            </if>
+            <if test="age != null">
+                age = #{age},
+            </if>
+            <if test="signature != null and signature != ''">
+                signature = #{signature},
+            </if>
+            <if test="loginIp != null and loginIp != ''">
+                login_ip = #{loginIp},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="lineStatus != null">
+                line_status = #{lineStatus},
+            </if>
+                updated = now(),
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from im.im_user where id = #{id}
+    </delete>
+
+    <!--登录-->
+    <select id="login" resultMap="ImUserMap">
+        select id, account, image, sex, age, signature, login_ip, status, line_status
+        from im.im_user
+        where account=#{account} and password=#{password}
+    </select>
+
+</mapper>

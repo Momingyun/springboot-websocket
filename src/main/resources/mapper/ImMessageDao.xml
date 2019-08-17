@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.im.dao.ImMessageDao">
+
+    <resultMap type="com.im.entity.ImMessage" id="ImMessageMap">
+        <result property="id" column="id" jdbcType="BIGINT"/>
+        <result property="fromUserId" column="from_user_id" jdbcType="BIGINT"/>
+        <result property="toUserId" column="to_user_id" jdbcType="BIGINT"/>
+        <result property="toGroudId" column="to_groud_id" jdbcType="BIGINT"/>
+        <result property="msgType" column="msg_type" jdbcType="INTEGER"/>
+        <result property="msgImage" column="msg_image" jdbcType="VARCHAR"/>
+        <result property="msgFile" column="msg_file" jdbcType="VARCHAR"/>
+        <result property="msgText" column="msg_text" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="created" column="created" jdbcType="TIMESTAMP"/>
+        <result property="updated" column="updated" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ImMessageMap">
+        select
+          id, from_user_id, to_user_id, to_groud_id, msg_type, msg_image, msg_file, msg_text, status, created, updated
+        from im.im_message
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ImMessageMap">
+        select
+          id, from_user_id, to_user_id, to_groud_id, msg_type, msg_image, msg_file, msg_text, status, created, updated
+        from im.im_message
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="ImMessageMap">
+        select
+        id, from_user_id, to_user_id, to_groud_id, msg_type, msg_image, msg_file, msg_text, status, created, updated
+        from im.im_message
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="fromUserId != null">
+                and from_user_id = #{fromUserId}
+            </if>
+            <if test="toUserId != null">
+                and to_user_id = #{toUserId}
+            </if>
+            <if test="toGroudId != null">
+                and to_groud_id = #{toGroudId}
+            </if>
+            <if test="msgType != null">
+                and msg_type = #{msgType}
+            </if>
+            <if test="msgImage != null and msgImage != ''">
+                and msg_image = #{msgImage}
+            </if>
+            <if test="msgFile != null and msgFile != ''">
+                and msg_file = #{msgFile}
+            </if>
+            <if test="msgText != null and msgText != ''">
+                and msg_text = #{msgText}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="created != null">
+                and created = #{created}
+            </if>
+            <if test="updated != null">
+                and updated = #{updated}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into im.im_message
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="fromUserId != null">
+                from_user_id,
+            </if>
+            <if test="toUserId != null">
+                to_user_id,
+            </if>
+            <if test="toGroudId != null">
+                to_groud_id,
+            </if>
+            <if test="msgType != null">
+                msg_type,
+            </if>
+            <if test="msgImage != null and msgImage != ''">
+                msg_image,
+            </if>
+            <if test="msgFile != null and msgFile != ''">
+                msg_file,
+            </if>
+            <if test="msgText != null and msgText != ''">
+                msg_text,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="created != null">
+                created,
+            </if>
+            <if test="updated != null">
+                updated,
+            </if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="fromUserId != null">
+                #{fromUserId},
+            </if>
+            <if test="toUserId != null">
+                #{toUserId},
+            </if>
+            <if test="toGroudId != null">
+                #{toGroudId},
+            </if>
+            <if test="msgType != null">
+                #{msgType},
+            </if>
+            <if test="msgImage != null and msgImage != ''">
+                #{msgImage},
+            </if>
+            <if test="msgFile != null and msgFile != ''">
+                #{msgFile},
+            </if>
+            <if test="msgText != null and msgText != ''">
+                #{msgText},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="created != null">
+                #{created},
+            </if>
+            <if test="updated != null">
+                #{updated},
+            </if>
+        </trim>
+
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update im.im_message
+        <set>
+            <if test="fromUserId != null">
+                from_user_id = #{fromUserId},
+            </if>
+            <if test="toUserId != null">
+                to_user_id = #{toUserId},
+            </if>
+            <if test="toGroudId != null">
+                to_groud_id = #{toGroudId},
+            </if>
+            <if test="msgType != null">
+                msg_type = #{msgType},
+            </if>
+            <if test="msgImage != null and msgImage != ''">
+                msg_image = #{msgImage},
+            </if>
+            <if test="msgFile != null and msgFile != ''">
+                msg_file = #{msgFile},
+            </if>
+            <if test="msgText != null and msgText != ''">
+                msg_text = #{msgText},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="created != null">
+                created = #{created},
+            </if>
+            <if test="updated != null">
+                updated = #{updated},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from im.im_message where id = #{id}
+    </delete>
+
+    <!--删除某一时间段的消息-->
+    <delete id="deleteByDate">
+        delete from im.im_message
+        where im_message.created between ('2019-01-01 00:00:00' and #{date})
+    </delete>
+</mapper>

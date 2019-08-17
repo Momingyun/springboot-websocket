@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.im.dao.ImUserFriendDao">
+
+    <resultMap type="com.im.entity.ImUserFriend" id="ImUserFriendMap">
+        <result property="userId" column="user_id" jdbcType="BIGINT"/>
+        <result property="friendId" column="friend_id" jdbcType="BIGINT"/>
+        <result property="friendRemark" column="friend_remark" jdbcType="VARCHAR"/>
+        <result property="created" column="created" jdbcType="TIMESTAMP"/>
+        <result property="updated" column="updated" jdbcType="TIMESTAMP"/>
+        <collection property="imUser" ofType="com.im.entity.ImUser">
+            <result property="account" column="account" jdbcType="VARCHAR"/>
+            <result property="image" column="image" jdbcType="VARCHAR"/>
+        </collection>
+    </resultMap>
+    <!--获取好友列表-->
+    <select id="getFriendList" resultMap="ImUserFriendMap">
+        select friend_id,friend_remark,account,image
+        from im.im_user_friend iuf
+        left join  im.im_user iu on iuf.friend_id=iu.id
+        where iuf.user_id =#{id} or iuf.friend_id=#{id} and iuf.status=1
+    </select>
+    <!--判断是否已经添加好友-->
+    <select id="isExistFriend" resultType="int">
+        select count(friend_id)
+        from im.im_user_friend
+        where friend_id=#{friendId} and user_id =#{userId}
+    </select>
+
+    <!--添加好友-->
+    <insert id="insert">
+        insert into im.im_user_friend
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="friendId != null">
+                friend_id,
+            </if>
+            <if test="friendRemark != null and friendRemark != ''">
+                friend_remark,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            created,
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId},
+            </if>
+            <if test="friendId != null">
+                #{friendId},
+            </if>
+            <if test="friendRemark != null and friendRemark != ''">
+                #{friendRemark},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            now(),
+        </trim>
+    </insert>
+
+    <!--删除好友-->
+    <delete id="delete">
+        delete from im.im_user_friend
+        where im_user_friend.friend_id = #{friendId}
+        and im_user_friend.user_id=#{userId}
+    </delete>
+    <!--修改好友申请状态-->
+    <update id="update">
+        update im.im_user_friend
+        set status=#{status},updated=now()
+        where user_id=#{userId} and friend_id=#{friendId}
+    </update>
+
+</mapper>

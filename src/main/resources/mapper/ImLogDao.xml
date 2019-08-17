@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.im.dao.ImLogDao">
+
+    <resultMap type="com.im.entity.ImLog" id="ImLogMap">
+        <result property="id" column="id" jdbcType="BIGINT"/>
+        <result property="url" column="url" jdbcType="VARCHAR"/>
+        <result property="method" column="method" jdbcType="VARCHAR"/>
+        <result property="ip" column="ip" jdbcType="VARCHAR"/>
+        <result property="account" column="account" jdbcType="BIGINT"/>
+        <result property="tool" column="tool" jdbcType="VARCHAR"/>
+        <result property="browser" column="browser" jdbcType="VARCHAR"/>
+        <result property="system" column="system" jdbcType="VARCHAR"/>
+        <result property="created" column="created" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ImLogMap">
+        select
+          id, url, method, ip, account, tool, browser, system, created
+        from im.im_log
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ImLogMap">
+        select
+          id, url, method, ip, account, tool, browser, system, created
+        from im.im_log
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="ImLogMap">
+        select
+        id, url, method, ip, account, tool, browser, system, created
+        from im.im_log
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="url != null and url != ''">
+                and url = #{url}
+            </if>
+            <if test="method != null and method != ''">
+                and method = #{method}
+            </if>
+            <if test="ip != null and ip != ''">
+                and ip = #{ip}
+            </if>
+            <if test="account != null">
+                and account = #{account}
+            </if>
+            <if test="tool != null and tool != ''">
+                and tool = #{tool}
+            </if>
+            <if test="browser != null and browser != ''">
+                and browser = #{browser}
+            </if>
+            <if test="system != null and system != ''">
+                and system = #{system}
+            </if>
+            <if test="created != null">
+                and created = #{created}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into im.im_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="url != null and url != ''">
+                url,
+            </if>
+            <if test="method != null and method != ''">
+                method,
+            </if>
+            <if test="ip != null and ip != ''">
+                ip,
+            </if>
+            <if test="account != null">
+                account,
+            </if>
+            <if test="tool != null and tool != ''">
+                tool,
+            </if>
+            <if test="browser != null and browser != ''">
+                browser,
+            </if>
+            <if test="system != null and system != ''">
+                `system`,
+            </if>
+            created,
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="url != null and url != ''">
+                #{url},
+            </if>
+            <if test="method != null and method != ''">
+                #{method},
+            </if>
+            <if test="ip != null and ip != ''">
+                #{ip},
+            </if>
+            <if test="account != null">
+                #{account},
+            </if>
+            <if test="tool != null and tool != ''">
+                #{tool},
+            </if>
+            <if test="browser != null and browser != ''">
+                #{browser},
+            </if>
+            <if test="system != null and system != ''">
+                #{system},
+            </if>
+            now(),
+        </trim>
+
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update im.im_log
+        <set>
+            <if test="url != null and url != ''">
+                url = #{url},
+            </if>
+            <if test="method != null and method != ''">
+                method = #{method},
+            </if>
+            <if test="ip != null and ip != ''">
+                ip = #{ip},
+            </if>
+            <if test="account != null">
+                account = #{account},
+            </if>
+            <if test="tool != null and tool != ''">
+                tool = #{tool},
+            </if>
+            <if test="browser != null and browser != ''">
+                browser = #{browser},
+            </if>
+            <if test="system != null and system != ''">
+                system = #{system},
+            </if>
+            <if test="created != null">
+                created = #{created},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from im.im_log where id = #{id}
+    </delete>
+
+</mapper>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.im.dao.ImGroupDao">
+
+    <resultMap type="com.im.entity.ImGroup" id="ImGroupMap">
+        <result property="id" column="id" jdbcType="BIGINT"/>
+        <result property="groupImg" column="group_img" jdbcType="VARCHAR"/>
+        <result property="groupName" column="group_name" jdbcType="VARCHAR"/>
+        <result property="groupMaxNum" column="group_max_num" jdbcType="INTEGER"/>
+        <result property="groupNotice" column="group_notice" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="created" column="created" jdbcType="TIMESTAMP"/>
+        <result property="updated" column="updated" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--根据用户编号获取用户所在群-->
+    <select id="queryById" resultMap="ImGroupMap">
+        select
+          ig.id, ig.group_img, ig.group_name, ig.group_max_num, ig.group_notice, ig.status, ig.created, ig.updated
+        from im.im_group ig
+        left join im_user_group iug on ig.id=iug.group_id
+        group by iug.group_id
+        where  iug.user_id= #{userId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ImGroupMap">
+        select
+          id, group_img, group_name, group_max_num, group_notice, status, created, updated
+        from im.im_group
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="ImGroupMap">
+        select
+        id, group_img, group_name, group_max_num, group_notice, status, created, updated
+        from im.im_group
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="groupImg != null and groupImg != ''">
+                and group_img = #{groupImg}
+            </if>
+            <if test="groupName != null and groupName != ''">
+                and group_name = #{groupName}
+            </if>
+            <if test="groupMaxNum != null">
+                and group_max_num = #{groupMaxNum}
+            </if>
+            <if test="groupNotice != null and groupNotice != ''">
+                and group_notice = #{groupNotice}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="created != null">
+                and created = #{created}
+            </if>
+            <if test="updated != null">
+                and updated = #{updated}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into im.im_group
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="groupImg != null and groupImg != ''">
+                group_img,
+            </if>
+            <if test="groupName != null and groupName != ''">
+                group_name,
+            </if>
+            <if test="groupMaxNum != null">
+                group_max_num,
+            </if>
+            <if test="groupNotice != null and groupNotice != ''">
+                group_notice,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="created != null">
+                created,
+            </if>
+            <if test="updated != null">
+                updated,
+            </if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="groupImg != null and groupImg != ''">
+                #{groupImg},
+            </if>
+            <if test="groupName != null and groupName != ''">
+                #{groupName},
+            </if>
+            <if test="groupMaxNum != null">
+                #{groupMaxNum},
+            </if>
+            <if test="groupNotice != null and groupNotice != ''">
+                #{groupNotice},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="created != null">
+                #{created},
+            </if>
+            <if test="updated != null">
+                #{updated},
+            </if>
+        </trim>
+
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update im.im_group
+        <set>
+            <if test="groupImg != null and groupImg != ''">
+                group_img = #{groupImg},
+            </if>
+            <if test="groupName != null and groupName != ''">
+                group_name = #{groupName},
+            </if>
+            <if test="groupMaxNum != null">
+                group_max_num = #{groupMaxNum},
+            </if>
+            <if test="groupNotice != null and groupNotice != ''">
+                group_notice = #{groupNotice},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="created != null">
+                created = #{created},
+            </if>
+            <if test="updated != null">
+                updated = #{updated},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from im.im_group where id = #{id}
+    </delete>
+
+</mapper>

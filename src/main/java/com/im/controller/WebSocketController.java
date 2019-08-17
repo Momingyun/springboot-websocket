@@ -8,6 +8,7 @@ import com.im.common.properties.WebSocketProperties;
 import com.im.common.utils.MessageConvertUtil;
 import com.im.common.utils.SendMsgUtil;
 import com.im.entity.vo.MessageVO;
+import com.im.service.ImMessageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 
@@ -44,6 +45,8 @@ public class WebSocketController {
         return session;
     }
 
+    private static ImMessageService imMessageService;
+
     /**
      * 建立连接
      *
@@ -56,41 +59,43 @@ public class WebSocketController {
         //将上线用户信息添加到全局map集合中
         Map<Long, WebSocketController> controllerMap = new HashMap<>();
         controllerMap.put(userId, this);
-        int onlienStatus=0;
+        int onlienStatus = 0;
         //判断该用户是否已经在线
         for (Map<Long, WebSocketController> map : WebSocketProperties.onLineMap.values()) {
-            if (map.containsKey(userId)){
-                onlienStatus=1;
+            if (map.containsKey(userId)) {
+                onlienStatus = 1;
             }
         }
         for (Map<Long, WebSocketController> map : WebSocketProperties.leaveMap.values()) {
-            if (map.containsKey(userId)){
-                onlienStatus=2;
+            if (map.containsKey(userId)) {
+                onlienStatus = 2;
             }
         }
         for (Map<Long, WebSocketController> map : WebSocketProperties.busyMap.values()) {
-            if (map.containsKey(userId)){
-                onlienStatus=3;
+            if (map.containsKey(userId)) {
+                onlienStatus = 3;
             }
         }
         //移除已登录账号
-        if (onlienStatus!=0){
+        if (onlienStatus != 0) {
             String sessionid = MessageConvertUtil.getSessionIdFromMap(userId, onlienStatus);
-            if (onlienStatus==1){
+            if (onlienStatus == 1) {
                 WebSocketProperties.onLineMap.remove(sessionid);
             }
-            if (onlienStatus==2){
+            if (onlienStatus == 2) {
                 WebSocketProperties.leaveMap.remove(sessionid);
             }
-            if (onlienStatus==3){
+            if (onlienStatus == 3) {
                 WebSocketProperties.busyMap.remove(sessionid);
             }
+            WebSocketProperties.statusMap.remove(userId);
         }
         WebSocketProperties.onLineMap.put(session.getId(), controllerMap);
+        WebSocketProperties.statusMap.put(userId, LineStatusEnum.ONLINE);
         log.info("用户：" + userId + "登录成功！sessionId=" + session.getId());
-        log.info("当前在线人数："+ WebSocketProperties.getOnlineNumber());
-        log.info("当前离开人数："+ WebSocketProperties.getLeaveNumber());
-        log.info("当前繁忙人数："+ WebSocketProperties.getBusyNumber());
+        log.info("当前在线人数：" + WebSocketProperties.getOnlineNumber());
+        log.info("当前离开人数：" + WebSocketProperties.getLeaveNumber());
+        log.info("当前繁忙人数：" + WebSocketProperties.getBusyNumber());
     }
 
     /**
@@ -142,8 +147,8 @@ public class WebSocketController {
         } finally {
             log.info("用户:" + userId + "下线");
         }
-        log.info("当前在线人数："+ WebSocketProperties.getOnlineNumber());
-        log.info("当前离开人数："+ WebSocketProperties.getLeaveNumber());
-        log.info("当前繁忙人数："+ WebSocketProperties.getBusyNumber());
+        log.info("当前在线人数：" + WebSocketProperties.getOnlineNumber());
+        log.info("当前离开人数：" + WebSocketProperties.getLeaveNumber());
+        log.info("当前繁忙人数：" + WebSocketProperties.getBusyNumber());
     }
 }

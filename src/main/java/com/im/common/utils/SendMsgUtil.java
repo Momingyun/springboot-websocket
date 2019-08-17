@@ -12,7 +12,9 @@ import com.im.service.ImMessageService;
 import com.im.service.ImUserFriendService;
 import com.im.service.ImUserGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.Date;
 import java.util.List;
 
@@ -22,26 +24,22 @@ import java.util.List;
  * @Author: LiuBin
  * @Modified By:
  */
+@Component
 public class SendMsgUtil {
-    private static ImMessageService imMessageService;
-
+    private static SendMsgUtil sendMsgUtil;
     @Autowired
-    public void setImMessageService(ImMessageService imMessageService) {
-        SendMsgUtil.imMessageService = imMessageService;
-    }
-
-    private static ImUserFriendService imUserFriendService;
-
+    private ImMessageService imMessageService;
     @Autowired
-    public void setImUserFriendService(ImUserFriendService imUserFriendService) {
-        SendMsgUtil.imUserFriendService = imUserFriendService;
-    }
-
-    private static ImUserGroupService imUserGroupService;
-
+    private ImUserFriendService imUserFriendService;
     @Autowired
-    public void setImUserGroupService(ImUserGroupService imUserGroupService) {
-        SendMsgUtil.imUserGroupService = imUserGroupService;
+    private ImUserGroupService imUserGroupService;
+
+    @PostConstruct
+    public void init() {
+        sendMsgUtil = this;
+        sendMsgUtil.imMessageService = this.imMessageService;
+        sendMsgUtil.imUserGroupService = this.imUserGroupService;
+        sendMsgUtil.imUserFriendService = this.imUserFriendService;
     }
 
     /**
@@ -96,7 +94,7 @@ public class SendMsgUtil {
             imMessage.setUpdated(new Date());
         }
         //消息存放数据库
-        imMessageService.insert(imMessage);
+        sendMsgUtil.imMessageService.insert(imMessage);
     }
 
     /**
@@ -108,7 +106,7 @@ public class SendMsgUtil {
         //获取群编号
         Long toGroupId = messageVO.getToGroupId();
         //获取该群所有成员
-        List<ImUserGroup> imUserGroups = imUserGroupService.queryById(toGroupId);
+        List<ImUserGroup> imUserGroups = sendMsgUtil.imUserGroupService.queryById(toGroupId);
         //给群里每个人发消息
         for (ImUserGroup userGroup : imUserGroups) {
             messageVO.setToUserId(userGroup.getUserId());
@@ -132,6 +130,6 @@ public class SendMsgUtil {
         }
         //默认状态设为未同意
         imUserFriend.setStatus(0);
-        imUserFriendService.addFriend(imUserFriend);
+        sendMsgUtil.imUserFriendService.addFriend(imUserFriend);
     }
 }

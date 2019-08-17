@@ -18,7 +18,7 @@
         select friend_id,friend_remark,account,image
         from im.im_user_friend iuf
         left join  im.im_user iu on iuf.friend_id=iu.id
-        where iuf.user_id =#{id} or iuf.friend_id=#{id} and iuf.status=1
+        where iuf.user_id =#{id} and iuf.status=1
     </select>
     <!--判断是否已经添加好友-->
     <select id="isExistFriend" resultType="int">

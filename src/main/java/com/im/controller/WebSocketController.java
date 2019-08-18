@@ -8,7 +8,6 @@ import com.im.common.properties.WebSocketProperties;
 import com.im.common.utils.MessageConvertUtil;
 import com.im.common.utils.SendMsgUtil;
 import com.im.entity.vo.MessageVO;
-import com.im.service.ImMessageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 
@@ -44,8 +43,6 @@ public class WebSocketController {
     public Session getSession() {
         return session;
     }
-
-    private static ImMessageService imMessageService;
 
     /**
      * 建立连接

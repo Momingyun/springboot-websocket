@@ -92,6 +92,9 @@ public class ImUserFriendController {
         imUserFriend.setFriendId(addUserId);
         imUserFriend.setUserId(userId);
         int edit = this.imUserFriendService.update(imUserFriend);
+        imUserFriend.setUserId(addUserId);
+        imUserFriend.setFriendId(userId);
+        this.imUserFriendService.addFriend(imUserFriend);
         if (edit > 0) {
             return ResultUtil.success(null, edit, "成功");
         }

@@ -110,6 +110,9 @@ public class WebSocketController {
         } else if (messageVO.getMsgType().equals(MessageTypeEnum.FRIEND.getType())) {
             //添加好友
             SendMsgUtil.addFriendSendMsg(messageVO);
+        } else if (messageVO.getMsgType().equals(MessageTypeEnum.GROUP.getType())) {
+            //群聊
+            SendMsgUtil.groupSendMsg(messageVO);
         }
     }
 

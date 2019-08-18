@@ -66,8 +66,8 @@
     <!--删除好友-->
     <delete id="delete">
         delete from im.im_user_friend
-        where im_user_friend.friend_id = #{friendId}
-        and im_user_friend.user_id=#{userId}
+        WHERE(im_user_friend.user_id=#{userId} and im_user_friend.friend_id=#{friendId})
+        or(im_user_friend.user_id=#{friendId} and im_user_friend.friend_id=#{userId})
     </delete>
     <!--修改好友申请状态-->
     <update id="update">

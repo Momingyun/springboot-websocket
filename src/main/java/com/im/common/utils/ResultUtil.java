@@ -44,6 +44,16 @@ public class ResultUtil {
     }
 
     /**
+     * 登录失效
+     *
+     * @param msg
+     * @return
+     */
+    public static ResultUtil login_fail(String msg) {
+        return new ResultUtil(404, null, 0, msg);
+    }
+
+    /**
      * 请求错误
      *
      * @param msg

@@ -63,4 +63,11 @@ public interface ImUserGroupService {
      */
     int deleteById();
 
+    /**
+     * 根据用户编号获取所有群信息
+     *
+     * @param userId
+     * @return
+     */
+    List<ImUserGroup> getGroups(Long userId);
 }

@@ -1,7 +1,8 @@
 package com.im.controller;
 
+import com.im.common.enums.LineStatusEnum;
+import com.im.common.properties.WebSocketProperties;
 import com.im.common.utils.ResultUtil;
-import com.im.entity.ImUser;
 import com.im.entity.ImUserFriend;
 import com.im.service.ImUserFriendService;
 import io.swagger.annotations.Api;
@@ -38,7 +39,15 @@ public class ImUserFriendController {
     @ApiOperation("获取好友列表")
     @GetMapping("/list")
     public ResultUtil getFirentList(long id) {
-        List<ImUser> friendList = this.imUserFriendService.getFriendList(id);
+        List<ImUserFriend> friendList = this.imUserFriendService.getFriendList(id);
+        for (ImUserFriend friend : friendList) {
+            //获取用户在线状态
+            if (WebSocketProperties.statusMap.get(friend.getFriendId()) == null) {
+                friend.getImUser().setLineStatus(LineStatusEnum.OFFLINE.getCode());
+            } else {
+                friend.getImUser().setLineStatus(WebSocketProperties.statusMap.get(friend.getFriendId()).getCode());
+            }
+        }
         if (friendList.size() == 0) {
             return ResultUtil.success(null, 0, "还没有好友");
         }

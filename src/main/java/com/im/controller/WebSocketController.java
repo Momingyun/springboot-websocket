@@ -143,7 +143,7 @@ public class WebSocketController {
             }
             WebSocketProperties.statusMap.remove(userId);
         } catch (Exception e) {
-            log.info("用户:" + userId + "手动关闭连接");
+            log.warn("用户:" + userId + "手动关闭连接");
         } finally {
             log.info("用户:" + userId + "下线");
         }

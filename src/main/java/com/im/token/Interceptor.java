@@ -34,16 +34,15 @@ public class Interceptor implements HandlerInterceptor {
         if (token != null) {
             checkToken = TokenUtils.checkToken(token);
             if (checkToken.equals("F")) {
-                resultUtil = ResultUtil.failed("非法登录");
+                resultUtil = ResultUtil.login_fail("非法登录");
             } else if (checkToken.equals("G")) {
-                resultUtil = ResultUtil.failed("登录过期");
+                resultUtil = ResultUtil.login_fail("登录过期");
             } else if (checkToken.equals("S")) {
-                ResultUtil.failed("登录失效");
+                ResultUtil.login_fail("登录失效");
             } else {
                 return true;
             }
         }
-        resultUtil = ResultUtil.failed("未登录");
         returnErrorResponse(httpServletResponse, resultUtil);
         return false;
     }

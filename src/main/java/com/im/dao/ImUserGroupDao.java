@@ -65,5 +65,10 @@ public interface ImUserGroupDao {
      */
     int deleteById(Long id);
 
-
+    /**
+     * 根据用户编号获取所有群信息
+     * @param userId
+     * @return
+     */
+    List<ImUserGroup> getGroups(Long userId);
 }

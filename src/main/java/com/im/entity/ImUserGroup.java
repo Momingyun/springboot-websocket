@@ -6,9 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * 用户群组关联表(ImUserGroup)实体类
@@ -24,6 +22,10 @@ public class ImUserGroup implements Serializable {
     private Long groupId;
     @ApiParam("用户编号")
     private Long userId;
+    @ApiParam("群图片")
+    private String image;
+    @ApiParam("群名称")
+    private String name;
     @ApiParam("用户身份认证  0-->群员 1-->群主  2-->管理员")
     private Integer authUser;
     @ApiParam("入群时间")

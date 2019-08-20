@@ -1,6 +1,5 @@
 package com.im.service;
 
-import com.im.entity.ImUser;
 import com.im.entity.ImUserFriend;
 
 import java.util.List;
@@ -18,7 +17,7 @@ public interface ImUserFriendService {
      * @param id
      * @return
      */
-    List<ImUser> getFriendList(Long id);
+    List<ImUserFriend> getFriendList(Long id);
 
     /**
      * 添加好友

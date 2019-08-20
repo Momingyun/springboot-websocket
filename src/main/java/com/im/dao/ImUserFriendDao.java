@@ -1,6 +1,5 @@
 package com.im.dao;
 
-import com.im.entity.ImUser;
 import com.im.entity.ImUserFriend;
 import org.springframework.stereotype.Repository;
 
@@ -21,10 +20,11 @@ public interface ImUserFriendDao {
      * @param id
      * @return
      */
-    List<ImUser> getFriendList(Long id);
+    List<ImUserFriend> getFriendList(Long id);
 
     /**
      * 验证是否已经添加好友
+     *
      * @param imUserFriend
      * @return
      */
@@ -32,6 +32,7 @@ public interface ImUserFriendDao {
 
     /**
      * 添加好友
+     *
      * @param imUserFriend
      * @return
      */
@@ -39,6 +40,7 @@ public interface ImUserFriendDao {
 
     /**
      * 删除好友
+     *
      * @param imUserFriend
      * @return
      */
@@ -46,6 +48,7 @@ public interface ImUserFriendDao {
 
     /**
      * 修改好友申请状态
+     *
      * @param imUserFriend
      * @return
      */

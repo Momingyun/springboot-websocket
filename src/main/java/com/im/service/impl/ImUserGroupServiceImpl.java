@@ -55,4 +55,14 @@ public class ImUserGroupServiceImpl implements ImUserGroupService {
     public int deleteById() {
         return 0;
     }
+
+    /**
+     * 根据用户编号获取所有群信息
+     * @param userId
+     * @return
+     */
+    @Override
+    public List<ImUserGroup> getGroups(Long userId) {
+        return this.imUserGroupDao.getGroups(userId);
+    }
 }

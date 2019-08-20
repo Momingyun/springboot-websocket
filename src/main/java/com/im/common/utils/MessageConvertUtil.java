@@ -8,6 +8,7 @@ import com.im.entity.ImUser;
 import com.im.entity.vo.MessageVO;
 import lombok.extern.slf4j.Slf4j;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.Map;
 
@@ -52,7 +53,11 @@ public class MessageConvertUtil {
         //消息默认状态为未发送
         messageVO.setStatus(0);
         //消息发送时间
-        messageVO.setCreated(new Date());
+        try {
+            messageVO.setCreated(TimeUtil.today());
+        } catch (ParseException e) {
+            log.error("时间获取失败");
+        }
         //消息内容
         if (jsonObject.containsKey("msgImage")) {
             String msgImage = jsonObject.getString("msgImage");

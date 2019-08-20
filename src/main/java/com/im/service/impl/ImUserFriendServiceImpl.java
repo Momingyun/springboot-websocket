@@ -1,7 +1,6 @@
 package com.im.service.impl;
 
 import com.im.dao.ImUserFriendDao;
-import com.im.entity.ImUser;
 import com.im.entity.ImUserFriend;
 import com.im.service.ImUserFriendService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +26,8 @@ public class ImUserFriendServiceImpl implements ImUserFriendService {
      * @return
      */
     @Override
-    public List<ImUser> getFriendList(Long id) {
-        List<ImUser> friendList = this.imUserFriendDao.getFriendList(id);
+    public List<ImUserFriend> getFriendList(Long id) {
+        List<ImUserFriend> friendList = this.imUserFriendDao.getFriendList(id);
         return friendList;
     }
 

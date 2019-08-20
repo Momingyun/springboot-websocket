@@ -1,8 +1,8 @@
 package com.im.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.im.common.properties.WebSocketProperties;
 import com.im.common.utils.ResultUtil;
-import com.im.entity.ImUserFriend;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,11 +32,17 @@ public class HistoryController {
      */
     @ApiOperation("添加聊天历史记录")
     @PostMapping("/add")
-    public ResultUtil addHistory(ImUserFriend imUserFriend, Long userId) {
+    public ResultUtil addHistory(String imUserFriend, Long userId) {
         if (WebSocketProperties.historyCahtMap.containsKey(userId)) {
+            for (String userFriend : WebSocketProperties.historyCahtMap.get(userId)) {
+                JSONObject parseObject = JSONObject.parseObject(userFriend);
+                if (parseObject.getLong("friendId").equals(JSONObject.parseObject(imUserFriend).getLong("friendId"))) {
+                    return ResultUtil.success(null, 0, "成功");
+                }
+            }
             WebSocketProperties.historyCahtMap.get(userId).add(imUserFriend);
         } else {
-            List<ImUserFriend> imUserFriendList = new ArrayList<>();
+            List<String> imUserFriendList = new ArrayList<>();
             imUserFriendList.add(imUserFriend);
             WebSocketProperties.historyCahtMap.put(userId, imUserFriendList);
         }
@@ -53,10 +59,11 @@ public class HistoryController {
     @ApiOperation("删除聊天记录")
     @PostMapping("/remove")
     public ResultUtil deleteHistory(Long friendId, Long userId) {
-        List<ImUserFriend> imUserFriendList = WebSocketProperties.historyCahtMap.get(userId);
-        for (ImUserFriend friend : imUserFriendList) {
-            if (friend.getFriendId().equals(friendId)) {
-                WebSocketProperties.historyCahtMap.get(userId).remove(friend);
+        List<String> imUserFriendList = WebSocketProperties.historyCahtMap.get(userId);
+        for (String userFriend : imUserFriendList) {
+            JSONObject parseObject = JSONObject.parseObject(userFriend);
+            if (parseObject.getLong("friendId").equals(friendId)) {
+                WebSocketProperties.historyCahtMap.get(userId).remove(userFriend);
                 break;
             }
         }
@@ -72,8 +79,16 @@ public class HistoryController {
     @ApiOperation("获取聊天记录")
     @GetMapping("/list")
     public ResultUtil getHistory(Long userId) {
-        List<ImUserFriend> imUserFriendList = WebSocketProperties.historyCahtMap.get(userId);
-        return ResultUtil.success(imUserFriendList, imUserFriendList.size(), "成功");
+        if (!WebSocketProperties.historyCahtMap.containsKey(userId)) {
+            return ResultUtil.success(null, 0, "成功");
+        }
+        List<String> imUserFriendList = WebSocketProperties.historyCahtMap.get(userId);
+        List<JSONObject> jsonObjects = new ArrayList<>();
+        for (String o : imUserFriendList) {
+            JSONObject jsonObject = JSONObject.parseObject(o);
+            jsonObjects.add(jsonObject);
+        }
+        return ResultUtil.success(jsonObjects, jsonObjects.size(), "成功");
     }
 
 }

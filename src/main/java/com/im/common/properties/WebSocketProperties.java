@@ -4,6 +4,7 @@ import com.im.common.enums.LineStatusEnum;
 import com.im.controller.WebSocketController;
 import com.im.entity.ImUserFriend;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +15,7 @@ import java.util.Map;
  * @Author: LiuBin
  * @Modified By:
  */
-public class WebSocketProperties {
+public class WebSocketProperties implements Serializable {
     /**
      * 在线用户存储
      * 参数说明：String：sessionId
@@ -47,7 +48,7 @@ public class WebSocketProperties {
      * 历史聊天记录
      * 参数说明：Long 用户编号
      */
-    public static Map<Long, List<ImUserFriend>> historyCahtMap = new HashMap<>();
+    public static Map<Long, List<String>> historyCahtMap = new HashMap<>();
     /**
      * 在线人数
      */

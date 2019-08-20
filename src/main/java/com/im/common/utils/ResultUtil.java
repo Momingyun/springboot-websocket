@@ -2,13 +2,15 @@ package com.im.common.utils;
 
 import com.im.common.enums.ResultCode;
 
+import java.io.Serializable;
+
 /**
  * @Description 公共返回参数类
  * @data 2019/8/14
  * @Author: LiuBin
  * @Modified By:
  */
-public class ResultUtil {
+public class ResultUtil implements Serializable {
     private Integer code;
     private Object data;
     private Integer count;

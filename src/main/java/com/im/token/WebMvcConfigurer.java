@@ -22,7 +22,8 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
         registry.addInterceptor(new Interceptor()).addPathPatterns("/user/query")
                 .addPathPatterns("/user/login/token")
                 .addPathPatterns("/imMessage/**")
-                .addPathPatterns("/friend/**");
+                .addPathPatterns("/friend/**")
+                .addPathPatterns("/history/**");
         super.addInterceptors(registry);
     }
 }

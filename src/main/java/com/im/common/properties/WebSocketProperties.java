@@ -2,8 +2,10 @@ package com.im.common.properties;
 
 import com.im.common.enums.LineStatusEnum;
 import com.im.controller.WebSocketController;
+import com.im.entity.ImUserFriend;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -40,6 +42,12 @@ public class WebSocketProperties {
      * LineStatusEnum:用户在线状态
      */
     public static Map<Long, LineStatusEnum> statusMap = new HashMap<>();
+
+    /**
+     * 历史聊天记录
+     * 参数说明：Long 用户编号
+     */
+    public static Map<Long, List<ImUserFriend>> historyCahtMap = new HashMap<>();
     /**
      * 在线人数
      */

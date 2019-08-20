@@ -14,7 +14,11 @@ public enum RedisBaseEnum {
     /**
      * token存储空间
      */
-    TOKEN_BASE(1);
+    TOKEN_BASE(1),
+    /**
+     * 历史联系人存储空间
+     */
+    HISTORY_CHAT(2);
     private Integer base;
 
     RedisBaseEnum(Integer base) {

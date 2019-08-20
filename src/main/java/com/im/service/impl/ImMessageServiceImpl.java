@@ -37,7 +37,7 @@ public class ImMessageServiceImpl implements ImMessageService {
 
     @Override
     public int insert(ImMessage imMessage) {
-        return 0;
+        return this.imMessageDao.insert(imMessage);
     }
 
     @Override

@@ -101,9 +101,7 @@
             <if test="status != null">
                 status,
             </if>
-            <if test="created != null">
                 created,
-            </if>
             <if test="updated != null">
                 updated,
             </if>
@@ -134,9 +132,7 @@
             <if test="status != null">
                 #{status},
             </if>
-            <if test="created != null">
-                #{created},
-            </if>
+            now(),
             <if test="updated != null">
                 #{updated},
             </if>

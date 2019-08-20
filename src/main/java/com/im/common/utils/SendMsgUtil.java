@@ -94,7 +94,8 @@ public class SendMsgUtil {
             imMessage.setUpdated(new Date());
         }
         //消息存放数据库
-        sendMsgUtil.imMessageService.insert(imMessage);
+        int insert = sendMsgUtil.imMessageService.insert(imMessage);
+        System.out.println(insert);
     }
 
     /**

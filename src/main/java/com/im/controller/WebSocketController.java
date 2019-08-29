@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * @Description websocket控制器
+ * @Description 好友通讯websocket控制器
  * @data 2019/8/14
  * @Author: LiuBin
  * @Modified By:
@@ -31,10 +31,6 @@ import java.util.Set;
 @Controller
 @ServerEndpoint(value = "/socket/{id}", encoders = {MessageEncoder.class}, decoders = {MessageDecoder.class})
 public class WebSocketController {
-    /**
-     * 当前连接
-     */
-//    private Map<Long, WebSocketController> client = new HashMap<>();
     /**
      * 会话
      */

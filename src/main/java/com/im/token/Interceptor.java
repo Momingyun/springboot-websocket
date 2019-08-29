@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.im.common.enums.RedisBaseEnum;
 import com.im.common.utils.RedisUtil;
 import com.im.common.utils.ResultUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
